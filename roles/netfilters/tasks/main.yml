@@ -18,7 +18,7 @@
 - name: Task 4- Check 'address_dns' value
   assert:
     that: "address_dns == '89.16.168.192.in-addr.arpa.'"
-    fail_msg: "'address_dns' must be '2.0.168.192.in-addr.arpa.', but is {{ address_dns }}"
+    fail_msg: "'address_dns' must be '89.16.168.192.in-addr.arpa.', but is {{ address_dns }}"
 
 - name: Task 5- Obtain server's network/netmask
   set_fact:
