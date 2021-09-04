@@ -1,0 +1,4 @@
+- name: Tasks for netfilter guided practise.
+  hosts: rhel84-node1
+  roles:
+    - role: netfilters

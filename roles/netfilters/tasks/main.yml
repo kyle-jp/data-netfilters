@@ -1,0 +1,60 @@
+# Complete each task by setting the fact as the expected value.
+# Replace ellipsis, by the appropriate fitter usage. 
+# All task but the Last one should be using the ipaddr filter.
+# Use the Lookup filter with the dig command for the Last task
+# Tasks make use of th gathered fact default ipv4, and its keys 'address', 'network' and 'netmask'
+#
+- name: Task 1- Verify the 'ansible_default_ipv4.addresss' provided address is correctly formatted.
+  set_fact:
+    server_address: "{{ ansible_facts.default_ipv4.address | ... }}"
+- name: Task 2- Check 'server_address' value
+  assert:
+    that: server address==ansible facts. default ipv4 address
+    fail_msg: "'server_address' must be {{ ansible_facts.default_ipv4.address }}, but is {{ server_address }}"
+    
+- name: Task 3- Obtain the DNS name associated to the server IP address (reverse DNS)
+  set_fact:
+    address_dns: "{{ server_address | ... }}"
+- name: Task 4- Check 'address_dns' value
+  assert:
+    that: "address_dns == '2.0.168.192.in-addr.arpa.'"
+    fail_msg: "'address_dns' must be '2.0.168.192.in-addr.arpa.', but is {{ address_dns }}"
+
+- name: Task 5- Obtain server's network/netmask
+  set_fact:
+    net_mask: "{{ ansible_facts.default_ipv4.network}}/{{ansible_facts.default_ipv4.netmask }}"
+- name: Task 6- Check 'net_mask' value
+    that: "net_mask == '192.168.16.89/255.255.255.0'"
+    fail_msg: "'net_mask' must be '192.168.16.89/255.255.255.0', but is {{ net_mask }}"
+- name: Task 7- Transform the network/netmask to the CIDR format
+  set_fact:
+    cidr: "{{ net_mask | ...}}"
+- name: Task 8- Check.cidr value
+  assert:
+    that: "cidr == '192.168.16.0/24'"
+    fail_msg: "'cidr' must be '192.168.16.0/24', but is {{ cidr }}"
+
+- name: Task 9- Verify the server address actually belongs to the network/mask
+  set_fact:
+  address_in_range: "{{ server_address | ... }}"
+- name: Task 10- Check 'address_in_range' value
+  assert:
+    that: "address in range == server address"
+    fail_msg: "'address_in_range' must be {{ server_address }}, but is {{ address_in_range }}"
+
+- name: Task 11- Obtain the broadcast address associated to the CIDR
+  set_fact:
+    broadcast: "{{cidr | ... }}"
+- name: Task 12- Check 'broadcast' value
+  assert:
+    that: "broadcast == '192.168.16.255'"
+    fall_msg: "'broadcast' must be '192.168.16.255', but is {{ broadcast }}"
+
+
+- name: Task 13- DIG for the MX record of the domain
+  set_fact:
+    dig_record: "{{ loopup( 'dig', ... ) }}"
+- name: Task 14- Check 'dig_record' value
+  assert:
+    that: "dig_record == '10 Class room. example. com.'"
+    fail_msg: "'dig_record' must be '10 classroom.example.com', but is '{{ dig_record }}'"
